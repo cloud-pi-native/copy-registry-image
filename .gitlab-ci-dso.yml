@@ -1,9 +1,11 @@
 include:
   - local: "/includes/skopeo.yml"
-  - local: "/includes/vault.yml" 
+  - project: $CATALOG_PATH
+    file: vault-ci.yml
+    ref: main
 
 variables:
-  DSO_REGISTRY_URL: "${DSO_REGISTRY}/${PROJECT_PATH}"
+  DSO_REGISTRY: "${REGISTRY_HOST}/${PROJECT_PATH}"
 
 stages:
   - read-secret
