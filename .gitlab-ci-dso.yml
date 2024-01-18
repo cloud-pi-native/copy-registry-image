@@ -1,0 +1,21 @@
+include:
+  - local: "/includes/skopeo.yml"
+  - local: "/includes/vault.yml" 
+
+variables:
+  DSO_REGISTRY_URL: "${DSO_REGISTRY}/${PROJECT_PATH}"
+
+stages:
+  - read-secret
+  - image-promotion 
+
+read_secret:
+  stage: read-secret
+  extends:
+    - .vault:read_secret
+
+skopeo-copy:
+  stage: image-promotion
+  extends:
+    - .skopeo:copy
+

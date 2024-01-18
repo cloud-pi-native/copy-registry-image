@@ -1,0 +1,14 @@
+variables:
+  DSO_REGISTRY: "${REGISTRY_HOST}/${PROJECT_PATH}"
+
+.skopeo:copy:
+  image:
+    name: hanaura26/skopeo 
+    entrypoint: [""]
+  script:
+    - echo "Authentication into Project registry"
+    - skopeo login $SOURCE_REGISTRY --username $SOURCE_REGISTRY_USERNAME --password $SOURCE_REGISTRY_TOKEN
+    - echo "Authentication into DSO Registry"
+    - skopeo login $DSO_REGISTRY --username $DSO_REGISTRY_USERNAME --password $DSO_REGISTRY_TOKEN
+    - echo "Copy ${SOURCE_REGISTRY}/${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG} image into ${DSO_REGISTRY}/${DSO_IMAGE_NAME}:${SOURCE_IMAGE_TAG}"
+    - skopeo copy docker://${SOURCE_REGISTRY}/${SOURCE_IMAGE_NAME}:${SOURCE_IMAGE_TAG} docker://${DSO_REGISTRY}/${DSO_IMAGE_NAME}:${SOURCE_IMAGE_TAG}
